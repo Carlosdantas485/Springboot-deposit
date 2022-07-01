@@ -23,5 +23,13 @@ public class DepositService {
 		Optional<Deposit> obj = repository.findById(id);
 		return obj.get();
 	}
+	
+	public Deposit insert(Deposit obj) {
+		return repository.save(obj);
+	}
+
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 
 }

@@ -19,8 +19,8 @@ public class TestConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Deposit u1 = new Deposit(null, 1, 500.0, 20, 05, 2022);
-		Deposit u2 = new  Deposit(null, 1, 600.0, 20, 05, 2022);
+		Deposit u1 = new Deposit(null, 20,05,2022, 1, 500.0);
+		Deposit u2 = new  Deposit(null,  20,05,2022, 1, 500.0);
  
 		depositRepository.saveAll(Arrays.asList(u1, u2));
 
