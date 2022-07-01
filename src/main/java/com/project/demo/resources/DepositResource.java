@@ -13,7 +13,7 @@ import com.project.demo.entities.Deposit;
 import com.project.demo.services.DepositService;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/deposits")
 public class DepositResource {
 
 	@Autowired

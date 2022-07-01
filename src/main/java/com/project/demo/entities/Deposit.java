@@ -1,7 +1,6 @@
 package com.project.demo.entities;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -11,34 +10,35 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tb_deposits")
+@Table(name = "tb_deposit")	
 public class Deposit implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	private Instant data;
-	private int day;
-	private int month;
-	private int year;
-
+	
+	private int account;
 	private Double balance;
-
+	private int dataDeposit;
+	private int monthDeposit;
+	private int yearDeposit;
+	
 	public Deposit() {
 
 	}
 
-	public Deposit(Long id, Instant data, int day, int month, int year, Double balance) {
+	public Deposit(Long id, int account, Double balance, int dataDeposit, int monthDeposit, int yearDeposit) {
 		super();
 		this.id = id;
-		this.data = data;
-		this.day = day;
-		this.month = month;
-		this.year = year;
+		this.account = account;
 		this.balance = balance;
+		this.dataDeposit = dataDeposit;
+		this.monthDeposit =monthDeposit;
+		this.yearDeposit = yearDeposit;
+	
 	}
+
 
 	public Long getId() {
 		return id;
@@ -48,37 +48,16 @@ public class Deposit implements Serializable {
 		this.id = id;
 	}
 
-	public Instant getData() {
-		return data;
+
+	public int getAccount() {
+		return account;
 	}
 
-	public void setData(Instant data) {
-		this.data = data;
+
+	public void setAccount(int account) {
+		this.account = account;
 	}
 
-	public int getDay() {
-		return day;
-	}
-
-	public void setDay(int day) {
-		this.day = day;
-	}
-
-	public int getMonth() {
-		return month;
-	}
-
-	public void setMonth(int month) {
-		this.month = month;
-	}
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
 
 	public Double getBalance() {
 		return balance;
@@ -88,10 +67,35 @@ public class Deposit implements Serializable {
 		this.balance = balance;
 	}
 
+	public int getDataDeposit() {
+		return dataDeposit;
+	}
+
+	public void setDataDeposit(int dataDeposit) {
+		this.dataDeposit = dataDeposit;
+	}
+
+	public int getMonthDeposit() {
+		return monthDeposit;
+	}
+
+	public void setMonthDeposit(int monthDeposit) {
+		this.monthDeposit = monthDeposit;
+	}	
+
+	public int getYearDeposit() {
+		return yearDeposit;
+	}
+
+	public void setYearDeposit(int yearDeposit) {
+		this.yearDeposit = yearDeposit;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -105,4 +109,7 @@ public class Deposit implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+
+	
+	
 }
