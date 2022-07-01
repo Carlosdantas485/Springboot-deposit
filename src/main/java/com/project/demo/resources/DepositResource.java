@@ -40,9 +40,7 @@ public class DepositResource {
 	@PostMapping
 	public ResponseEntity<Deposit> insert(@RequestBody Deposit obj) {
 		obj = service.insert(obj);
-
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-
 		return ResponseEntity.created(uri).body(obj);
 	}
 

@@ -146,8 +146,6 @@ public class Deposit implements Serializable {
 				aux = (aux/100);
 				amount = (amount-3)-aux;
 				
-				System.out.println(amount);
-				System.out.println(amount);
 			}else {
 				System.out.println("data invalida");
 				System.out.println("data invalida");
@@ -163,25 +161,38 @@ public class Deposit implements Serializable {
 		}
 		if(type == 3) {
 
-			if (today < dataDeposit && dataDeposit < (today+10)) {
-				amount = 11;
-			}
-			else if ((today+10) < dataDeposit && dataDeposit <= (today+20)) {
-				amount = 12;
+			if ((today+10) < dataDeposit && dataDeposit <= (today+20)) {
+				Double aux = amount;
+				
+				aux = aux*8.2;
+				aux = (aux/100);
+				amount = amount-aux;
 			}
 			else if ((today+20) < dataDeposit && dataDeposit <= (today+30)) {
-				amount = 13;
+				Double aux = amount;
+				
+				aux = aux*6.9;
+				aux = (aux/100);
+				amount = amount-aux;
 			}
 			else if ((today+30) < dataDeposit && dataDeposit <= (today+40)) {
-				amount = 14;
+				Double aux = amount;
+				
+				aux = aux*4.7;
+				aux = (aux/100);
+				amount = amount-aux;
 			}
 			else if ((today+10) < dataDeposit) {
+				Double aux = amount;
 				
+				aux = aux*1.7;
+				aux = (aux/100);
+				amount = amount-aux;
 			}
 			
 		}
 		else if(type > 3){
-			
+			System.out.println("NAO FOI POSSIVEL ENCONTRA UMA TAXA PARA ESTA DATA E VALOR");
 		}
 			
 		return amount;
