@@ -55,11 +55,11 @@ public class Deposit implements Serializable {
 		this.account = account;
 	}
 
-	public int getDataDeosit() {
+	public int getDataDeposit() {
 		return dataDeposit;
 	}
 
-	public void setDataDeosit(int dataDeposit) {
+	public void setDataDeposit(int dataDeposit) {
 		this.dataDeposit = dataDeposit;
 	}
 
@@ -93,7 +93,7 @@ public class Deposit implements Serializable {
 
 	public float typeTaxa(int type, float amount) {
 
-		int dataDeposit = getDataDeosit();
+		int dataDeposit = getDataDeposit();
 		float response = (float) 0.0;
 		float aux = amount;
 		if (type == 1) {
