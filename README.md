@@ -1,3 +1,12 @@
+# Getting started with Java and Spring-boot
+
+![](https://github.com/flavours/documentation/workflows/CI/badge.svg)
+
+<p align="center">
+  <img src="https://utils.flavours.dev/presskit/spring_boot_flavour_glossy.svg" width="100">
+</p>
+
+A [Flavours](https://www.flavours.dev) project template for Java/Spring Boot
 ## Quick start
 
 ### Clone the repository
