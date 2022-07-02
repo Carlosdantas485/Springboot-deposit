@@ -20,26 +20,23 @@ public class Deposit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	
-	private int dataDeposit;	
+	private int dataDeposit;
 	private Integer account;
-	private double amount;
-	
+	private float amount;
+
 	private Integer depositStatus;
-	
+
 	public Deposit() {
 
 	}
 
-
-
-	public Deposit(Long id, int dataDeposit, DepositStatus depositStatus, Integer account, double amount) {
+	public Deposit(Long id, int dataDeposit, DepositStatus depositStatus, Integer account, float amount) {
 		super();
 		this.id = id;
 		this.dataDeposit = dataDeposit;
 		this.account = account;
 		setAmount(amount);
-		
+
 	}
 
 	public Long getId() {
@@ -57,7 +54,7 @@ public class Deposit implements Serializable {
 	public void setAccount(Integer account) {
 		this.account = account;
 	}
-	
+
 	public int getDataDeosit() {
 		return dataDeposit;
 	}
@@ -66,120 +63,113 @@ public class Deposit implements Serializable {
 		this.dataDeposit = dataDeposit;
 	}
 
-	public double getAmount() {
+	public float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(float amount) {
 		
-		double total = 0;
-		
-		if(amount <= 1000 ) {
+		float total = 0;
+
+		if (0 < amount && amount <= 1000) {
 			total = typeTaxa(1, amount);
 		}
-		if(1000 < amount && amount <= 2000) {
+		else if (1000 < amount && amount <= 2000) {
 			total = typeTaxa(2, amount);
 		}
-		if(2000 < amount){
+		else if (2000 < amount) {
 			total = typeTaxa(3, amount);
-		}
-		else if(amount < 0) {
+		} else if ( valueOf(amount) == null || amount < 0) {
+			amount = 0;
 			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 		}
 
 		this.amount = total;
 	}
-	
-	public double typeTaxa(int type, double amount) {
-		
+
+	private Object valueOf(float amount2) {
+		return null;
+	}
+
+	public float typeTaxa(int type, float amount) {
+
 		int dataDeposit = getDataDeosit();
-		Double response = 0.0;
-		
-		if(type == 1) {
-			
-			if(0 == dataDeposit || amount <= 1000) {
-				Double aux = amount;
-				
-				aux = aux*3;
-				aux = (aux/100);
-				response = (amount-3)-aux;
+		float response = (float) 0.0;
+		float aux = amount;
+		if (type == 1) {
+
+			if (0 == dataDeposit || amount <= 1000) {
+
+				aux = aux * 3;
+				aux = (aux / 100);
+				response = (amount - 3) - aux;
 				setDepositStatus(DepositStatus.Agendado);
-				
-			}
-			else {
+
+			} else {
+				amount = 0;
 				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 			}
-	
+
 		}
-		if(type == 2) {
-			Double aux = amount;
-			
-			aux = aux*3;
-			aux = (aux/100);
-			response = (amount-3)-aux;
-			
+		if (type == 2) {
+
+			aux = aux * 3;
+			aux = (aux / 100);
+			response = (amount - 3) - aux;
+
 			setDepositStatus(DepositStatus.Agendado);
 		}
-		if(type == 3) {
+		if (type == 3) {
 
 			if (10 < dataDeposit && dataDeposit <= 20) {
-				Double aux = amount;
-				
-				aux = aux*8.2;
-				aux = (aux/100);
-				response = amount-aux;
-				
+
+				aux = (float) (aux * 8.2);
+				aux = (aux / 100);
+				response = amount - aux;
+
 				setDepositStatus(DepositStatus.Agendado);
-			}
-			else if (20 < dataDeposit && dataDeposit <= 30) {
-				Double aux = amount;
-				
-				aux = aux*6.9;
-				aux = (aux/100);
-				response = amount-aux;
-				
+			} else if (20 < dataDeposit && dataDeposit <= 30) {
+
+				aux = (float) (aux * 6.9);
+				aux = (aux / 100);
+				response = amount - aux;
+
 				setDepositStatus(DepositStatus.Agendado);
-			}
-			else if (30 < dataDeposit && dataDeposit <= 40) {
-				Double aux = amount;
-				
-				aux = aux*4.7;
-				aux = (aux/100);
-				response = amount-aux;
-				
+			} else if (30 < dataDeposit && dataDeposit <= 40) {
+
+				aux = (float) (aux * 4.7);
+				aux = (aux / 100);
+				response = amount - aux;
+
 				setDepositStatus(DepositStatus.Agendado);
-			}
-			else if (40 < dataDeposit) {
-				Double aux = amount;
-				
-				aux = aux*1.7;
-				aux = (aux/100);
-				response = amount-aux;
-				
+			} else if (40 < dataDeposit) {
+
+				aux = (float) (aux * 1.7);
+				aux = (aux / 100);
+				response = amount - aux;
+
 				setDepositStatus(DepositStatus.Agendado);
-			}
-			else {
+			} else {
+				amount = 0;
 				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 			}
-		}
-		else if(type > 3){
+		} else if (type > 3) {
+			amount = 0;
 			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 		}
-			
+
 		return response;
 	}
-	
-	
+
 	public DepositStatus getDepositStatus() {
 		return DepositStatus.valueOf(depositStatus);
 	}
 
 	public void setDepositStatus(DepositStatus depositStatus) {
 		if (depositStatus != null) {
-			this.depositStatus = depositStatus.getCode() ;
+			this.depositStatus = depositStatus.getCode();
 		}
 	}
-	
 
 	@Override
 	public int hashCode() {
