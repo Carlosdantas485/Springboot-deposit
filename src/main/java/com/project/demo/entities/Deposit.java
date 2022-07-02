@@ -84,7 +84,7 @@ public class Deposit implements Serializable {
 			total = typeTaxa(3, amount);
 		}
 		else {
-			System.out.println("data invalida");
+			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 		}
 
 		this.amount = total;
@@ -97,7 +97,7 @@ public class Deposit implements Serializable {
 		
 		if(type == 1) {
 			
-			if(0 == dataDeposit) {
+			if(0 == dataDeposit || amount <= 1000) {
 				Double aux = amount;
 				
 				aux = aux*3;
@@ -106,13 +106,8 @@ public class Deposit implements Serializable {
 				setDepositStatus(DepositStatus.Agendado);
 				
 			}
-			
-			if(0 < dataDeposit) {
-				type = 3;
-			}
 			else {
 				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
-				System.out.println("data invalida");
 			}
 	
 		}
@@ -181,7 +176,7 @@ public class Deposit implements Serializable {
 
 	public void setDepositStatus(DepositStatus depositStatus) {
 		if (depositStatus != null) {
-			this.depositStatus = 1 ;
+			this.depositStatus = depositStatus.getCode() ;
 		}
 	}
 	
