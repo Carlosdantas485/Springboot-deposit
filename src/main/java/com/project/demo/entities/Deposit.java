@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.project.demo.entities.enums.DepositStatus;
+
 @Entity
 @Table(name = "tb_deposit")
 public class Deposit implements Serializable {
@@ -22,19 +24,22 @@ public class Deposit implements Serializable {
 	private int dataDeosit;	
 	private Integer account;
 	private double amount;
-
+	
+	private Integer depositStatus;
+	
 	public Deposit() {
 
 	}
 
 
 
-	public Deposit(Long id, int dataDeosit, Integer account, double amount) {
+	public Deposit(Long id, int dataDeosit, DepositStatus depositStatus, Integer account, double amount) {
 		super();
 		this.id = id;
 		this.dataDeosit = dataDeosit;
 		this.account = account;
 		setAmount(amount);
+		
 	}
 
 	public Long getId() {
@@ -99,14 +104,15 @@ public class Deposit implements Serializable {
 				aux = aux*3;
 				aux = (aux/100);
 				response = (amount-3)-aux;
-				statusDeposito = 1;
+				setDepositStatus(DepositStatus.Agendado);
+				
 			}
 			
 			if(0 < dataDeposit) {
 				type = 3;
 			}
 			else {
-				statusDeposito = 2;
+				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 				System.out.println("data invalida");
 			}
 	
@@ -118,7 +124,7 @@ public class Deposit implements Serializable {
 			aux = (aux/100);
 			response = (amount-3)-aux;
 			
-			statusDeposito = 1;
+			setDepositStatus(DepositStatus.Agendado);
 		}
 		if(type == 3) {
 
@@ -129,7 +135,7 @@ public class Deposit implements Serializable {
 				aux = (aux/100);
 				response = amount-aux;
 				
-				statusDeposito = 1;
+				setDepositStatus(DepositStatus.Agendado);
 			}
 			else if (20 < dataDeposit && dataDeposit <= 30) {
 				Double aux = amount;
@@ -138,7 +144,7 @@ public class Deposit implements Serializable {
 				aux = (aux/100);
 				response = amount-aux;
 				
-				statusDeposito = 1;
+				setDepositStatus(DepositStatus.Agendado);
 			}
 			else if (30 < dataDeposit && dataDeposit <= 40) {
 				Double aux = amount;
@@ -147,7 +153,7 @@ public class Deposit implements Serializable {
 				aux = (aux/100);
 				response = amount-aux;
 				
-				statusDeposito = 1;
+				setDepositStatus(DepositStatus.Agendado);
 			}
 			else if (40 < dataDeposit) {
 				Double aux = amount;
@@ -156,19 +162,28 @@ public class Deposit implements Serializable {
 				aux = (aux/100);
 				response = amount-aux;
 				
-				statusDeposito = 1;
+				setDepositStatus(DepositStatus.Agendado);
 			}
 			else {
-				statusDeposito = 2;
-				System.out.println("NAO FOI POSSIVEL ENCONTRA UMA TAXA PARA ESTA DATA E VALOR");
+				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 			}
 		}
 		else if(type > 3){
-			statusDeposito = 2;
-			System.out.println("NAO FOI POSSIVEL ENCONTRA UMA TAXA PARA ESTA DATA E VALOR");
+			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 		}
 			
 		return response;
+	}
+	
+	
+	public DepositStatus getDepositStatus() {
+		return DepositStatus.valueOf(depositStatus);
+	}
+
+	public void setDepositStatus(DepositStatus depositStatus) {
+		if (depositStatus != null) {
+			this.depositStatus = 1 ;
+		}
 	}
 	
 
