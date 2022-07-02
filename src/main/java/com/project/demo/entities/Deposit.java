@@ -83,7 +83,7 @@ public class Deposit implements Serializable {
 		if(2000 < amount){
 			total = typeTaxa(3, amount);
 		}
-		else {
+		else if(amount < 0) {
 			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
 		}
 
