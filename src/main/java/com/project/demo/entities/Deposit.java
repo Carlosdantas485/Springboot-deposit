@@ -21,7 +21,7 @@ public class Deposit implements Serializable {
 	private Long id;
 
 	
-	private int dataDeosit;	
+	private int dataDeposit;	
 	private Integer account;
 	private double amount;
 	
@@ -33,10 +33,10 @@ public class Deposit implements Serializable {
 
 
 
-	public Deposit(Long id, int dataDeosit, DepositStatus depositStatus, Integer account, double amount) {
+	public Deposit(Long id, int dataDeposit, DepositStatus depositStatus, Integer account, double amount) {
 		super();
 		this.id = id;
-		this.dataDeosit = dataDeosit;
+		this.dataDeposit = dataDeposit;
 		this.account = account;
 		setAmount(amount);
 		
@@ -59,11 +59,11 @@ public class Deposit implements Serializable {
 	}
 	
 	public int getDataDeosit() {
-		return dataDeosit;
+		return dataDeposit;
 	}
 
-	public void setDataDeosit(int dataDeosit) {
-		this.dataDeosit = dataDeosit;
+	public void setDataDeosit(int dataDeposit) {
+		this.dataDeposit = dataDeposit;
 	}
 
 	public double getAmount() {
@@ -93,7 +93,6 @@ public class Deposit implements Serializable {
 	public double typeTaxa(int type, double amount) {
 		
 		int dataDeposit = getDataDeosit();
-		int statusDeposito = 0;
 		Double response = 0.0;
 		
 		if(type == 1) {
