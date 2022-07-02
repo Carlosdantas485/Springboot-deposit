@@ -1,14 +1,3 @@
-# Getting started with Java and Spring-boot
-
-![](https://github.com/flavours/documentation/workflows/CI/badge.svg)
-
-<p align="center">
-  <img src="https://utils.flavours.dev/presskit/spring_boot_flavour_glossy.svg" width="100">
-</p>
-
-A [Flavours](https://www.flavours.dev) project template for Java/Spring Boot
-
-
 ## Quick start
 
 ### Clone the repository
@@ -88,23 +77,7 @@ Please also update the changelog accordingly and tag a new release in github.
 
 This project template uses:
 
-* Java 11
-* [FlywayDB](https://flywaydb.org/) for database migrations
-* [Gradle](https://gradle.org/) to build and, in dev-mode, run the application with hot reload
 * [Spring JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/) for database access
 * [Spring Web](https://spring.io/guides/gs/serving-web-content/) to serve HTTP requests
-* [Thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html) for HTML-templating
 
 
-### External reference
-
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/gradle-plugin/reference/html/)
-* [Spring Boot DevTools](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#using-boot-devtools)
-* [Thymeleaf](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-spring-mvc-template-engines)
-* [JDBC API](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-sql)
-* [Flyway Migration](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#howto-execute-flyway-database-migrations-on-startup)
-* [Spring Data JPA](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-jpa-and-spring-data)
-* [Spring Security](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-security)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/2.2.5.RELEASE/reference/htmlsingle/#boot-features-developing-web-applications)
