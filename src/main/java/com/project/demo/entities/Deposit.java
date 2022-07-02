@@ -1,10 +1,6 @@
 package com.project.demo.entities;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -23,12 +19,8 @@ public class Deposit implements Serializable {
 	private Long id;
 
 	
-	private int dataDeosit;
-	private int monthDeosit;
-	private int yearDeosit;
-	
+	private int dataDeosit;	
 	private Integer account;
-	
 	private double amount;
 
 	public Deposit() {
@@ -37,12 +29,10 @@ public class Deposit implements Serializable {
 
 
 
-	public Deposit(Long id, int dataDeosit, int monthDeosit, int yearDeosit, Integer account, double amount) {
+	public Deposit(Long id, int dataDeosit, Integer account, double amount) {
 		super();
 		this.id = id;
 		this.dataDeosit = dataDeosit;
-		this.monthDeosit = monthDeosit;
-		this.yearDeosit = yearDeosit;
 		this.account = account;
 		setAmount(amount);
 	}
@@ -71,31 +61,6 @@ public class Deposit implements Serializable {
 		this.dataDeosit = dataDeosit;
 	}
 
-	public int getMonthDeosit() {
-		return monthDeosit;
-	}
-
-	public void setMonthDeosit(int monthDeosit) {
-		this.monthDeosit = monthDeosit;
-	}
-
-	public int getYearDeosit() {
-		return yearDeosit;
-	}
-
-	public void setYearDeosit(int yearDeosit) {
-		this.yearDeosit = yearDeosit;
-	}
-	
-	
-	public int getTotalDataDeposit() {
-		int data = getDataDeosit();
-		int month = getMonthDeosit();
-		int year = getYearDeosit();
-		
-		return (data+month)+year;
-	}
-	
 	public double getAmount() {
 		return amount;
 	}
@@ -104,50 +69,44 @@ public class Deposit implements Serializable {
 		
 		double total = 0;
 		
-		if(amount <= 1000) {
+		if(amount <= 1000 ) {
 			total = typeTaxa(1, amount);
 		}
-		else if(1000 < amount && amount <= 2000) {
+		if(1000 < amount && amount <= 2000) {
 			total = typeTaxa(2, amount);
 		}
-		else if(2000 < amount){
+		if(2000 < amount){
 			total = typeTaxa(3, amount);
+		}
+		else {
+			System.out.println("data invalida");
 		}
 
 		this.amount = total;
 	}
 	
-	
 	public double typeTaxa(int type, double amount) {
-		int dataDeposit = getTotalDataDeposit();
-
-		Instant now = Instant.now();
 		
-		String date = now.toString();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		Date d = Date.from(Instant.parse(date));
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(d);
-
-		int day = cal.get(Calendar.DATE);
-		int month = 1 + cal.get(Calendar.MONTH);
-		int year = cal.get(Calendar.YEAR);
-		int today = day + month + year;
-		
+		int dataDeposit = getDataDeosit();
+		int statusDeposito = 0;
+		Double response = 0.0;
 		
 		if(type == 1) {
 			
-			if(today == dataDeposit) {
+			if(0 == dataDeposit) {
 				Double aux = amount;
 				
 				aux = aux*3;
 				aux = (aux/100);
-				amount = (amount-3)-aux;
-				
-			}else {
-				System.out.println("data invalida");
+				response = (amount-3)-aux;
+				statusDeposito = 1;
+			}
+			
+			if(0 < dataDeposit) {
+				type = 3;
+			}
+			else {
+				statusDeposito = 2;
 				System.out.println("data invalida");
 			}
 	
@@ -157,45 +116,59 @@ public class Deposit implements Serializable {
 			
 			aux = aux*3;
 			aux = (aux/100);
-			amount = (amount-3)-aux;
+			response = (amount-3)-aux;
+			
+			statusDeposito = 1;
 		}
 		if(type == 3) {
 
-			if ((today+10) < dataDeposit && dataDeposit <= (today+20)) {
+			if (10 < dataDeposit && dataDeposit <= 20) {
 				Double aux = amount;
 				
 				aux = aux*8.2;
 				aux = (aux/100);
-				amount = amount-aux;
+				response = amount-aux;
+				
+				statusDeposito = 1;
 			}
-			else if ((today+20) < dataDeposit && dataDeposit <= (today+30)) {
+			else if (20 < dataDeposit && dataDeposit <= 30) {
 				Double aux = amount;
 				
 				aux = aux*6.9;
 				aux = (aux/100);
-				amount = amount-aux;
+				response = amount-aux;
+				
+				statusDeposito = 1;
 			}
-			else if ((today+30) < dataDeposit && dataDeposit <= (today+40)) {
+			else if (30 < dataDeposit && dataDeposit <= 40) {
 				Double aux = amount;
 				
 				aux = aux*4.7;
 				aux = (aux/100);
-				amount = amount-aux;
+				response = amount-aux;
+				
+				statusDeposito = 1;
 			}
-			else if ((today+10) < dataDeposit) {
+			else if (40 < dataDeposit) {
 				Double aux = amount;
 				
 				aux = aux*1.7;
 				aux = (aux/100);
-				amount = amount-aux;
+				response = amount-aux;
+				
+				statusDeposito = 1;
 			}
-			
+			else {
+				statusDeposito = 2;
+				System.out.println("NAO FOI POSSIVEL ENCONTRA UMA TAXA PARA ESTA DATA E VALOR");
+			}
 		}
 		else if(type > 3){
+			statusDeposito = 2;
 			System.out.println("NAO FOI POSSIVEL ENCONTRA UMA TAXA PARA ESTA DATA E VALOR");
 		}
 			
-		return amount;
+		return response;
 	}
 	
 
