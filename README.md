@@ -14,7 +14,7 @@ A [Flavours](https://www.flavours.dev) project template for Java/Spring Boot
 ### Clone the repository
 
 ```
-git clone git@github.com:flavours/getting-started-with-spring-boot.git
+git clone https://github.com/Carlosdantas485/Springboot-deposit.git
 ```
 
 ### Build the project
