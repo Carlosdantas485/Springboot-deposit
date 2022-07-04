@@ -1,6 +1,7 @@
 package com.project.demo.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -20,23 +21,34 @@ public class Deposit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private int dataDeposit;
-	private Integer account;
-	private float amount;
+	//
+	private int dayDeposit;
+	private int monthDeposit;
+	private int yearDeposit;
+
+	private LocalDate dataDeposit;
+
+	private LocalDate dataNow = LocalDate.now();
+	//
 
 	private Integer depositStatus;
+	private Integer account;
+	private float amount;
 
 	public Deposit() {
 
 	}
 
-	public Deposit(Long id, int dataDeposit, DepositStatus depositStatus, Integer account, float amount) {
+	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow,
+			DepositStatus depositStatus, Integer account, float amount) {
 		super();
 		this.id = id;
-		this.dataDeposit = dataDeposit;
+		this.dayDeposit = dayDeposit;
+		this.monthDeposit = monthDeposit;
+		this.yearDeposit = yearDeposit;
+		this.dataNow = LocalDate.now();
 		this.account = account;
-		setAmount(amount);
-
+		this.amount = amount;
 	}
 
 	public Long getId() {
@@ -47,6 +59,46 @@ public class Deposit implements Serializable {
 		this.id = id;
 	}
 
+	public int getDayDeposit() {
+		return dayDeposit;
+	}
+
+	public void setDayDeposit(int dayDeposit) {
+		this.dayDeposit = dayDeposit;
+	}
+
+	public int getMonthDeposit() {
+		return monthDeposit;
+	}
+
+	public void setMonthDeposit(int monthDeposit) {
+		this.monthDeposit = monthDeposit;
+	}
+
+	public int getYearDeposit() {
+		return yearDeposit;
+	}
+
+	public void setYearDeposit(int yearDeposit) {
+		this.yearDeposit = yearDeposit;
+	}
+
+	public LocalDate getDataDeposit() {
+		return dataDeposit;
+	}
+
+	public void setDataDeposit(LocalDate dataDeposit) {
+		this.dataDeposit = LocalDate.of(this.yearDeposit, this.monthDeposit, this.dayDeposit);
+	}
+
+	public LocalDate getDataNow() {
+		return dataNow;
+	}
+
+	public void setDataNow(LocalDate dataNow) {
+		this.dataNow = LocalDate.now();
+	}
+
 	public Integer getAccount() {
 		return account;
 	}
@@ -55,50 +107,44 @@ public class Deposit implements Serializable {
 		this.account = account;
 	}
 
-	public int getDataDeposit() {
-		return dataDeposit;
-	}
-
-	public void setDataDeposit(int dataDeposit) {
-		this.dataDeposit = dataDeposit;
-	}
-
 	public float getAmount() {
 		return amount;
 	}
 
 	public void setAmount(float amount) {
-		
+
 		float total = 0;
 
 		if (0 < amount && amount <= 1000) {
 			total = typeTaxa(1, amount);
-		}
-		else if (1000 < amount && amount <= 2000) {
+		} else if (1000 < amount && amount <= 2000) {
 			total = typeTaxa(2, amount);
-		}
-		else if (2000 < amount) {
+		} else if (2000 < amount) {
 			total = typeTaxa(3, amount);
-		} else if ( valueOf(amount) == null || amount < 0) {
+		} else if (amount < 0) {
 			amount = 0;
-			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
+			
 		}
 
 		this.amount = total;
 	}
-
-	private Object valueOf(float amount2) {
-		return null;
-	}
-
+	
 	public float typeTaxa(int type, float amount) {
 
-		int dataDeposit = getDataDeposit();
 		float response = (float) 0.0;
 		float aux = amount;
+		
+		LocalDate datadeposit = getDataDeposit();
+		LocalDate today = getDataNow();
+		
+		int comparData = datadeposit.compareTo(today);
+		
+		setDepositStatus(DepositStatus.Agendado);
+	
+		
 		if (type == 1) {
 
-			if (0 == dataDeposit || amount <= 1000) {
+			if (today == datadeposit || amount <= 1000) {
 
 				aux = aux * 3;
 				aux = (aux / 100);
@@ -107,7 +153,8 @@ public class Deposit implements Serializable {
 
 			} else {
 				amount = 0;
-				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
+				setDepositStatus(DepositStatus.Erro);
+				
 			}
 
 		}
@@ -117,50 +164,62 @@ public class Deposit implements Serializable {
 			aux = (aux / 100);
 			response = (amount - 3) - aux;
 
-			setDepositStatus(DepositStatus.Agendado);
+			
 		}
-		if (type == 3) {
+		/*if (type == 3) {
 
-			if (10 < dataDeposit && dataDeposit <= 20) {
+			if ( 10 < comparData && comparData <= 20) {
 
 				aux = (float) (aux * 8.2);
 				aux = (aux / 100);
 				response = amount - aux;
-
+				
 				setDepositStatus(DepositStatus.Agendado);
-			} else if (20 < dataDeposit && dataDeposit <= 30) {
+				
+			}
+
+			else if (20 < comparData && comparData <= 30) {
 
 				aux = (float) (aux * 6.9);
 				aux = (aux / 100);
 				response = amount - aux;
-
+				
 				setDepositStatus(DepositStatus.Agendado);
-			} else if (30 < dataDeposit && dataDeposit <= 40) {
+
+				
+			} else if (30 < comparData && comparData <= 40) {
 
 				aux = (float) (aux * 4.7);
 				aux = (aux / 100);
 				response = amount - aux;
-
 				setDepositStatus(DepositStatus.Agendado);
-			} else if (40 < dataDeposit) {
+
+				
+			} else if (40 < comparData) {
 
 				aux = (float) (aux * 1.7);
 				aux = (aux / 100);
 				response = amount - aux;
-
 				setDepositStatus(DepositStatus.Agendado);
+
+				
 			} else {
 				amount = 0;
-				setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
+				setDepositStatus(DepositStatus.Erro);
+				
 			}
-		} else if (type > 3) {
-			amount = 0;
-			setDepositStatus(DepositStatus.Taxa_Nao_encontrada);
+
 		}
+		*/
+		else if (type > 3) {
+			amount = 0;
+			setDepositStatus(DepositStatus.Erro);	
+		}
+		
 
 		return response;
 	}
-
+	
 	public DepositStatus getDepositStatus() {
 		return DepositStatus.valueOf(depositStatus);
 	}
@@ -188,4 +247,6 @@ public class Deposit implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
+	
+	
 }

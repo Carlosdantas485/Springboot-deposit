@@ -2,7 +2,8 @@ package com.project.demo.entities.enums;
 
 public enum DepositStatus {
 	Agendado(1),
-	Taxa_Nao_encontrada(2);
+	Erro(2),
+	Preparando(3);
 
 	private int code;
 	
