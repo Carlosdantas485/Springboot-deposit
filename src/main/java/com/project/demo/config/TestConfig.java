@@ -1,4 +1,4 @@
-package com.project.demo.config;
+/*package com.project.demo.config;
 
 import java.util.Arrays;
 
@@ -27,3 +27,4 @@ public class TestConfig implements CommandLineRunner {
 	}
 
 }
+*/

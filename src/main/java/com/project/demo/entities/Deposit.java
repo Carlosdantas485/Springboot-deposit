@@ -35,12 +35,14 @@ public class Deposit implements Serializable {
 	private Integer account;
 	private float amount;
 
+	private String description;
+
 	public Deposit() {
 
 	}
 
-	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow,  LocalDate dataDeposit,
-			DepositStatus depositStatus, Integer account, float amount) {
+	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow, LocalDate dataDeposit,
+			DepositStatus depositStatus, Integer account, float amount, String description) {
 		super();
 		this.id = id;
 		this.dayDeposit = dayDeposit;
@@ -49,6 +51,7 @@ public class Deposit implements Serializable {
 		this.dataNow = LocalDate.now();
 		this.account = account;
 		this.amount = amount;
+
 	}
 
 	public Long getId() {
@@ -87,7 +90,7 @@ public class Deposit implements Serializable {
 		return dataDeposit;
 	}
 
-	public void setDataDeposit(LocalDate datadeposit ) {
+	public void setDataDeposit(LocalDate datadeposit) {
 		this.dataDeposit = datadeposit;
 	}
 
@@ -107,6 +110,14 @@ public class Deposit implements Serializable {
 		this.account = account;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public float getAmount() {
 		return amount;
 	}
@@ -117,45 +128,45 @@ public class Deposit implements Serializable {
 
 		if (0 < amount && amount <= 1000) {
 			total = typeTaxa(1, amount);
-		} else if (1000 < amount && amount <= 2000) {
+		}
+		if (1000 < amount && amount <= 2000) {
 			total = typeTaxa(2, amount);
-		} else if (2000 < amount) {
+		}
+		if (2000 < amount) {
 			total = typeTaxa(3, amount);
-		} else if (amount < 0) {
-			amount = 0;
-			
 		}
 
 		this.amount = total;
 	}
-	
+
 	public float typeTaxa(int type, float amount) {
 
 		float response = (float) 0.0;
 		float aux = amount;
-		
+		boolean alertDeposit = false;
+
 		LocalDate datadeposit = LocalDate.of(this.yearDeposit, this.monthDeposit, this.dayDeposit);
-		setDataDeposit(datadeposit);
 		LocalDate today = getDataNow();
-		
+		setDataDeposit(datadeposit);
+
 		int comparData = datadeposit.compareTo(today);
-		
-		setDepositStatus(DepositStatus.Agendado);
-	
-		
+		String description = "Erro inesperado";
+
 		if (type == 1) {
 
-			if (comparData == 0 || amount <= 1000) {
+			if (0 <= comparData && amount <= 1000) {
 
 				aux = aux * 3;
 				aux = (aux / 100);
 				response = (amount - 3) - aux;
-				setDepositStatus(DepositStatus.Agendado);
+
+				alertDeposit = true;
+				description = "Agendamento confirmado !";
 
 			} else {
 				amount = 0;
-				setDepositStatus(DepositStatus.Erro);
-				
+				description = "Data invalida";
+
 			}
 
 		}
@@ -165,18 +176,20 @@ public class Deposit implements Serializable {
 			aux = (aux / 100);
 			response = (amount - 3) - aux;
 
-			
+			alertDeposit = true;
+			description = "Agendamento confirmado !";
 		}
 		if (type == 3) {
 
-			if ( 10 < comparData && comparData <= 20) {
+			if (10 < comparData && comparData <= 20) {
 
 				aux = (float) (aux * 8.2);
 				aux = (aux / 100);
 				response = amount - aux;
-				
-				setDepositStatus(DepositStatus.Agendado);
-				
+
+				alertDeposit = true;
+				description = "Agendamento confirmado !";
+
 			}
 
 			else if (20 < comparData && comparData <= 30) {
@@ -184,37 +197,46 @@ public class Deposit implements Serializable {
 				aux = (float) (aux * 6.9);
 				aux = (aux / 100);
 				response = amount - aux;
-				
-				setDepositStatus(DepositStatus.Agendado);
-				
-			} else if (30 < comparData && comparData <= 40) {
+
+				alertDeposit = true;
+				description = "Agendamento confirmado !";
+
+			}
+			else if (30 < comparData && comparData <= 40) {
 
 				aux = (float) (aux * 4.7);
 				aux = (aux / 100);
 				response = amount - aux;
-				setDepositStatus(DepositStatus.Agendado);
-				
-			} else if (40 < comparData) {
+
+				alertDeposit = true;
+				description = "Agendamento confirmado !";
+
+			}
+			else if (40 < comparData) {
 
 				aux = (float) (aux * 1.7);
 				aux = (aux / 100);
 				response = amount - aux;
-				setDepositStatus(DepositStatus.Agendado);
-				
-			} else {
-				amount = 0;
-				setDepositStatus(DepositStatus.Erro);
+
+				alertDeposit = true;
+				description = "Agendamento confirmado !";
+
 			}
+			
 		}
-		
-		else if (type > 3) {
-			amount = 0;
-			setDepositStatus(DepositStatus.Erro);	
+
+		if (alertDeposit == false) {
+			setDepositStatus(DepositStatus.Erro);
+
+		} else if (alertDeposit == true) {
+			setDepositStatus(DepositStatus.Agendado);
 		}
+
+		setDescription(description);
 
 		return response;
 	}
-	
+
 	public DepositStatus getDepositStatus() {
 		return DepositStatus.valueOf(depositStatus);
 	}
@@ -242,6 +264,4 @@ public class Deposit implements Serializable {
 		return Objects.equals(id, other.id);
 	}
 
-	
-	
 }
