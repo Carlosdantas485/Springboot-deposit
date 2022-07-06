@@ -39,7 +39,7 @@ public class Deposit implements Serializable {
 
 	}
 
-	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow,
+	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow,  LocalDate dataDeposit,
 			DepositStatus depositStatus, Integer account, float amount) {
 		super();
 		this.id = id;
@@ -87,8 +87,8 @@ public class Deposit implements Serializable {
 		return dataDeposit;
 	}
 
-	public void setDataDeposit(LocalDate dataDeposit) {
-		this.dataDeposit = LocalDate.of(this.yearDeposit, this.monthDeposit, this.dayDeposit);
+	public void setDataDeposit(LocalDate datadeposit ) {
+		this.dataDeposit = datadeposit;
 	}
 
 	public LocalDate getDataNow() {
@@ -134,7 +134,8 @@ public class Deposit implements Serializable {
 		float response = (float) 0.0;
 		float aux = amount;
 		
-		LocalDate datadeposit = getDataDeposit();
+		LocalDate datadeposit = LocalDate.of(this.yearDeposit, this.monthDeposit, this.dayDeposit);
+		setDataDeposit(datadeposit);
 		LocalDate today = getDataNow();
 		
 		int comparData = datadeposit.compareTo(today);
@@ -144,7 +145,7 @@ public class Deposit implements Serializable {
 		
 		if (type == 1) {
 
-			if (today == datadeposit || amount <= 1000) {
+			if (comparData == 0 || amount <= 1000) {
 
 				aux = aux * 3;
 				aux = (aux / 100);
@@ -166,7 +167,7 @@ public class Deposit implements Serializable {
 
 			
 		}
-		/*if (type == 3) {
+		if (type == 3) {
 
 			if ( 10 < comparData && comparData <= 20) {
 
@@ -185,7 +186,6 @@ public class Deposit implements Serializable {
 				response = amount - aux;
 				
 				setDepositStatus(DepositStatus.Agendado);
-
 				
 			} else if (30 < comparData && comparData <= 40) {
 
@@ -193,7 +193,6 @@ public class Deposit implements Serializable {
 				aux = (aux / 100);
 				response = amount - aux;
 				setDepositStatus(DepositStatus.Agendado);
-
 				
 			} else if (40 < comparData) {
 
@@ -201,21 +200,17 @@ public class Deposit implements Serializable {
 				aux = (aux / 100);
 				response = amount - aux;
 				setDepositStatus(DepositStatus.Agendado);
-
 				
 			} else {
 				amount = 0;
 				setDepositStatus(DepositStatus.Erro);
-				
 			}
-
 		}
-		*/
+		
 		else if (type > 3) {
 			amount = 0;
 			setDepositStatus(DepositStatus.Erro);	
 		}
-		
 
 		return response;
 	}
