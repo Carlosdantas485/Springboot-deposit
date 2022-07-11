@@ -24,13 +24,13 @@ public class TestConfig implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Deposit d1 = new Deposit(null, 20, 7, 2022, null,null,null, 1, 5000);
-		Deposit d2 = new Deposit(null, 10, 8, 2022, null,null,null, 1, 50000);
+		Deposit d1 = new Deposit(null, 20, 7, 2022, 1, 5000);
+		Deposit d2 = new Deposit(null, 10, 8, 2022, 1, 50000);
  
 		depositRepository.saveAll(Arrays.asList(d1, d2));
 		
-		User u1 = new User(null, "Carlos", "Dantas","carlosdanats485@gmail.com",983502027,null, 1996,05,06, "carlos123");
-		User u2 = new User(null, "Alberto", "filho","albertofilho485@gmail.com",987654321,null, 1996,05,06, "alberto123");
+		User u1 = new User(null, "Carlos", "Dantas","carlosdanats485@gmail.com",983502027, 1996,05,06,  "carlos123");
+		User u2 = new User(null, "Alberto", "filho","albertofilho485@gmail.com",987654321, 1996,05,06, "alberto123");
  
 		userRepository.saveAll(Arrays.asList(u1, u2));
 

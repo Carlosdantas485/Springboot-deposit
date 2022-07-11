@@ -23,7 +23,8 @@ public class User implements Serializable {
 	private String lastName;
 	private String email;
 	private int phone;
-	private LocalDate age;
+	private LocalDate bDay;
+	private int age;
 	private int dayBDay;
 	private int monthBDay;
 	private int yearBDay;
@@ -32,10 +33,8 @@ public class User implements Serializable {
 	public User() {
 	}
 
-	
-
-	public User(Long id, String firstName, String lastName, String email, int phone, LocalDate age,
-			int yearBDay, int monthBDay,  int dayBDay, String password) {
+	public User(Long id, String firstName, String lastName, String email, int phone, int yearBDay,
+			int monthBDay, int dayBDay, String password) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -46,10 +45,9 @@ public class User implements Serializable {
 		this.monthBDay = monthBDay;
 		this.yearBDay = yearBDay;
 		this.password = password;
-		setAge(LocalDate.of(yearBDay, monthBDay, dayBDay));
+		setbDay(LocalDate.of(yearBDay, monthBDay, dayBDay));
+		setAge(getbDay());
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -91,20 +89,12 @@ public class User implements Serializable {
 		this.phone = phone;
 	}
 
-	public LocalDate getAge() {
-		return age;
+	public LocalDate getbDay() {
+		return bDay;
 	}
 
-	public void setAge(LocalDate age) {
-		this.age = age;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	public void setbDay(LocalDate bDay) {
+		this.bDay = bDay;
 	}
 
 	public int getDayBDay() {
@@ -129,6 +119,22 @@ public class User implements Serializable {
 
 	public void setYearBDay(int yearBDay) {
 		this.yearBDay = yearBDay;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(LocalDate bday) {
+		this.age = LocalDate.now().getYear() - bday.getYear();
 	}
 
 	@Override

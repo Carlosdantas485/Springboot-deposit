@@ -37,8 +37,7 @@ public class Deposit implements Serializable {
 
 	}
 
-	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow, LocalDate dataDeposit,
-			DepositStatus depositStatus, Integer account, float amount) {
+	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, Integer account, float amount) {
 		super();
 		this.id = id;
 		this.dayDeposit = dayDeposit;
@@ -47,6 +46,7 @@ public class Deposit implements Serializable {
 		this.dataNow = LocalDate.now();
 		this.account = account;
 		this.amount = amount;
+		setDataDeposit(LocalDate.of(yearDeposit, monthDeposit, dayDeposit));
 		setDepositStatus(DepositStatus.Erro);
 
 	}
