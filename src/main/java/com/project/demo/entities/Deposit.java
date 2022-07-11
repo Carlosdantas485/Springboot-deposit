@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import com.project.demo.entities.enums.DepositStatus;
 
 @Entity
-@Table(name = "tb_deposit")
+@Table(name = "tb_deposits")
 public class Deposit implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,6 @@ public class Deposit implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//
 	private int dayDeposit;
 	private int monthDeposit;
 	private int yearDeposit;
@@ -29,20 +28,17 @@ public class Deposit implements Serializable {
 	private LocalDate dataDeposit;
 
 	private LocalDate dataNow = LocalDate.now();
-	//
 
 	private Integer depositStatus;
 	private Integer account;
 	private float amount;
-
-	private String description;
 
 	public Deposit() {
 
 	}
 
 	public Deposit(Long id, int dayDeposit, int monthDeposit, int yearDeposit, LocalDate dataNow, LocalDate dataDeposit,
-			DepositStatus depositStatus, Integer account, float amount, String description) {
+			DepositStatus depositStatus, Integer account, float amount) {
 		super();
 		this.id = id;
 		this.dayDeposit = dayDeposit;
@@ -51,6 +47,7 @@ public class Deposit implements Serializable {
 		this.dataNow = LocalDate.now();
 		this.account = account;
 		this.amount = amount;
+		setDepositStatus(DepositStatus.Erro);
 
 	}
 
@@ -110,14 +107,6 @@ public class Deposit implements Serializable {
 		this.account = account;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public float getAmount() {
 		return amount;
 	}
@@ -145,12 +134,12 @@ public class Deposit implements Serializable {
 		float aux = amount;
 		boolean alertDeposit = false;
 
-		LocalDate datadeposit = LocalDate.of(this.yearDeposit, this.monthDeposit, this.dayDeposit);
-		LocalDate today = getDataNow();
+		LocalDate datadeposit = LocalDate.of(getYearDeposit(), getMonthDeposit(), getDayDeposit());
+
+		
 		setDataDeposit(datadeposit);
 
-		int comparData = datadeposit.compareTo(today);
-		String description = "Erro inesperado";
+		int comparData = datadeposit.compareTo(getDataNow());
 
 		if (type == 1) {
 
@@ -161,11 +150,9 @@ public class Deposit implements Serializable {
 				response = (amount - 3) - aux;
 
 				alertDeposit = true;
-				description = "Agendamento confirmado !";
 
 			} else {
 				amount = 0;
-				description = "Data invalida";
 
 			}
 
@@ -177,7 +164,7 @@ public class Deposit implements Serializable {
 			response = (amount - 3) - aux;
 
 			alertDeposit = true;
-			description = "Agendamento confirmado !";
+
 		}
 		if (type == 3) {
 
@@ -188,7 +175,6 @@ public class Deposit implements Serializable {
 				response = amount - aux;
 
 				alertDeposit = true;
-				description = "Agendamento confirmado !";
 
 			}
 
@@ -199,30 +185,25 @@ public class Deposit implements Serializable {
 				response = amount - aux;
 
 				alertDeposit = true;
-				description = "Agendamento confirmado !";
 
-			}
-			else if (30 < comparData && comparData <= 40) {
+			} else if (30 < comparData && comparData <= 40) {
 
 				aux = (float) (aux * 4.7);
 				aux = (aux / 100);
 				response = amount - aux;
 
 				alertDeposit = true;
-				description = "Agendamento confirmado !";
 
-			}
-			else if (40 < comparData) {
+			} else if (40 < comparData) {
 
 				aux = (float) (aux * 1.7);
 				aux = (aux / 100);
 				response = amount - aux;
 
 				alertDeposit = true;
-				description = "Agendamento confirmado !";
 
 			}
-			
+
 		}
 
 		if (alertDeposit == false) {
@@ -231,8 +212,6 @@ public class Deposit implements Serializable {
 		} else if (alertDeposit == true) {
 			setDepositStatus(DepositStatus.Agendado);
 		}
-
-		setDescription(description);
 
 		return response;
 	}
